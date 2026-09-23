@@ -35,11 +35,9 @@ jobs:
     permissions:
       contents: write
       packages: write
-
     runs-on: ubuntu-latest
-
+    environment: production
     needs: build
-
     steps:
 
     - uses: actions/checkout@v7
@@ -64,10 +62,16 @@ jobs:
         generateReleaseNotes: true
         tag: ${{ inputs.version }}
 
+    - name: NuGet login
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Publish to Nuget
       if: ${{ inputs.publish == 'publish' }}
       run: >
         dotnet nuget push
         build-artifacts/*.nupkg
         --source "https://api.nuget.org/v3/index.json"
-        --api-key "${{ secrets.NUGETKEY }}"
+        --api-key "${{steps.login.outputs.NUGET_API_KEY}}"
