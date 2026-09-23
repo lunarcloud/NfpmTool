@@ -1,0 +1,14 @@
+{
+  "win-x64": {
+    "program": "../../../win-x64/nfpm.exe"
+  },
+  "win-arm64": {
+    "program": "../../../win-arm64/nfpm.exe"
+  },
+  "linux-x64": {
+    "program": "../../../linux-x64/nfpm"
+  },
+  "linux-arm64": {
+    "program": "../../../linux-arm64/nfpm"
+  }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>SamSarette.NfpmTool</id>
+        <version>$version$</version>
+        <title>nFPM Dotnet Tool</title>
+        <authors>Sam Sarette</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <readme>docs/README.md</readme>
+        <projectUrl>https://github.com/lunarcloud/NfpmWrapper</projectUrl>
+        <description>Dotnet Tool Wrapper for nFPM</description>
+        <copyright>Sam Sarette</copyright>
+        <tags>nfpm packaging deb rpm apk ipk arch</tags>
+        <repository type="git" url="https://github.com/lunarcloud/NfpmWrapper.git" />
+        <packageTypes>
+            <packageType name="DotnetTool" />
+        </packageTypes>
+    </metadata>
+    <files>
+        <file src="../README.md" target="docs/README.md" />
+        <file src="docs/**/*" target="docs" />
+        <file src="tools/**/*" target="tools" />
+        <file src="win-x64/**/*" target="win-x64" />
+        <file src="win-arm64/**/*" target="win-arm64" />
+        <file src="linux-x64/**/*" target="linux-x64" />
+        <file src="linux-arm64/**/*" target="linux-arm64" />
+    </files>
+</package>
