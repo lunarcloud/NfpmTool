@@ -133,9 +133,11 @@ jobs:
         name: build-artifacts
         path: build-artifacts
 
-    - name: Create test directory
+    - name: Prepare a test directory
       shell: bash
-      run: mkdir test-dir
+      run: |
+        mkdir test-dir
+        cp -r test/fixtures test-dir
 
     - name: Create tool manifest
       shell: bash
@@ -168,12 +170,12 @@ jobs:
       shell: bash
       run: |
         cd test-dir
-        dotnet tool run nfpm -- package --config ../test/fixtures/nfpm.yaml --target ./selftest.deb --packager deb
+        dotnet tool run nfpm -- package --config ./nfpm.yaml --target ./selftest.deb --packager deb
         test -s ./selftest.deb
 
     - name: Build rpm package from fixture
       shell: bash
       run: |
         cd test-dir
-        dotnet tool run nfpm -- package --config ../test/fixtures/nfpm.yaml --target ./selftest.rpm --packager rpm
+        dotnet tool run nfpm -- package --config ./nfpm.yaml --target ./selftest.rpm --packager rpm
         test -s ./selftest.rpm
