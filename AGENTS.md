@@ -1,10 +1,10 @@
 # Instructions for AI Agents
 
-This document provides guidance for AI agents contributing to the NfpmWrapper project.
+This document provides guidance for AI agents contributing to the NfpmTool project.
 
 ## Project Overview
 
-NfpmWrapper is a .NET tool wrapper for the [nFPM][nfpm] deb/rpm/apk/ipk/arch linux packager. The project repackages
+NfpmTool is a .NET tool wrapper for the [nFPM][nfpm] deb/rpm/apk/ipk/arch linux packager. The project repackages
 nFPM binaries for multiple platforms as a .NET global/local tool, allowing version control through .NET tool
 manifests.
 
@@ -20,7 +20,7 @@ manifests.
 
 When editing README.md:
 
-* Use only absolute URLs (e.g., `https://github.com/lunarcloud/NfpmWrapper/blob/main/...`)
+* Use only absolute URLs (e.g., `https://github.com/lunarcloud/NfpmTool/blob/main/...`)
 * Do not use relative paths (e.g., `./file.md` or `../file.md`)
 * Use Markdown link reference format for better maintainability
 * All links should point to stable references (main branch or specific tags)

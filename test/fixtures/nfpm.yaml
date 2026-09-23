@@ -1,16 +1,16 @@
-name: "nfpmwrapper-selftest"
+name: "nfpmtool-selftest"
 arch: "all"
 platform: "linux"
 version: "1.0.0"
 section: "default"
 priority: "extra"
-maintainer: "NfpmWrapper CI <noreply@example.com>"
+maintainer: "NfpmTool CI <noreply@example.com>"
 description: |
-  Self-validation package built by NfpmWrapper CI to verify the packaged
+  Self-validation package built by NfpmTool CI to verify the packaged
   nfpm tool can build real packages end-to-end.
-vendor: "NfpmWrapper"
-homepage: "https://github.com/lunarcloud/NfpmWrapper"
+vendor: "NfpmTool"
+homepage: "https://github.com/lunarcloud/NfpmTool"
 license: "MIT"
 contents:
   - src: ./hello.txt
-    dst: /usr/share/nfpmwrapper-selftest/hello.txt
+    dst: /usr/share/nfpmtool-selftest/hello.txt

@@ -32,7 +32,7 @@
     "xzvf",
     "ncipollo",
     "NUGETKEY",
-    "nfpmwrapper",
+    "nfpmtool",
     "selftest"
   ],
   "ignorePaths": [

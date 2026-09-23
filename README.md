@@ -52,17 +52,17 @@ For information about reporting security vulnerabilities, please see our [Securi
 
 This project is licensed under the MIT License - see the [LICENSE][license] file for details.
 
-[github-forks]: https://img.shields.io/github/forks/lunarcloud/NfpmWrapper?style=plastic
-[github-stars]: https://img.shields.io/github/stars/lunarcloud/NfpmWrapper?style=plastic
-[github-contributors]: https://img.shields.io/github/contributors/lunarcloud/NfpmWrapper?style=plastic
-[github-license]: https://img.shields.io/github/license/lunarcloud/NfpmWrapper?style=plastic
+[github-forks]: https://img.shields.io/github/forks/lunarcloud/NfpmTool?style=plastic
+[github-stars]: https://img.shields.io/github/stars/lunarcloud/NfpmTool?style=plastic
+[github-contributors]: https://img.shields.io/github/contributors/lunarcloud/NfpmTool?style=plastic
+[github-license]: https://img.shields.io/github/license/lunarcloud/NfpmTool?style=plastic
 [nuget-badge]: https://img.shields.io/nuget/v/SamSarette.NfpmTool?style=plastic&logo=nuget
 [nuget-package]: https://www.nuget.org/packages/SamSarette.NfpmTool
 [nfpm-site]: https://nfpm.goreleaser.com/
 [nfpm-download]: https://github.com/goreleaser/nfpm/releases
 [dotnet-tools]: https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools
 [dotnet-manifest]: https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools#install-a-local-tool
-[contributing]: https://github.com/lunarcloud/NfpmWrapper/blob/main/CONTRIBUTING.md
-[code-of-conduct]: https://github.com/lunarcloud/NfpmWrapper/blob/main/CODE_OF_CONDUCT.md
-[security]: https://github.com/lunarcloud/NfpmWrapper/blob/main/SECURITY.md
-[license]: https://github.com/lunarcloud/NfpmWrapper/blob/main/LICENSE
+[contributing]: https://github.com/lunarcloud/NfpmTool/blob/main/CONTRIBUTING.md
+[code-of-conduct]: https://github.com/lunarcloud/NfpmTool/blob/main/CODE_OF_CONDUCT.md
+[security]: https://github.com/lunarcloud/NfpmTool/blob/main/SECURITY.md
+[license]: https://github.com/lunarcloud/NfpmTool/blob/main/LICENSE

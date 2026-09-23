@@ -83,7 +83,7 @@ jobs:
         -pn SamSarette.NfpmTool
         -pv ${{ inputs.version }}
         -ps SamSarette
-        -nsb https://github.com/lunarcloud/NfpmWrapper
+        -nsb https://github.com/lunarcloud/NfpmTool
         -li true
         -pm true
 

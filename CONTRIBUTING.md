@@ -1,6 +1,6 @@
-# Contributing to NfpmWrapper
+# Contributing to NfpmTool
 
-Thank you for your interest in contributing to NfpmWrapper! This document provides guidelines and instructions for contributing to this project.
+Thank you for your interest in contributing to NfpmTool! This document provides guidelines and instructions for contributing to this project.
 
 ## Code of Conduct
 
@@ -98,4 +98,4 @@ actually executed, not just the x64 ones.
 
 If you have questions, please open a discussion on GitHub.
 
-[code-of-conduct]: https://github.com/lunarcloud/NfpmWrapper/blob/main/CODE_OF_CONDUCT.md
+[code-of-conduct]: https://github.com/lunarcloud/NfpmTool/blob/main/CODE_OF_CONDUCT.md

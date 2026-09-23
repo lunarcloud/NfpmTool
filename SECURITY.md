@@ -11,7 +11,7 @@ We release patches for security vulnerabilities for the following versions:
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within NfpmWrapper, please send an email to the maintainers. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within NfpmTool, please send an email to the maintainers. All security vulnerabilities will be promptly addressed.
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 

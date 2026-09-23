@@ -8,11 +8,11 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">MIT</license>
         <readme>docs/README.md</readme>
-        <projectUrl>https://github.com/lunarcloud/NfpmWrapper</projectUrl>
+        <projectUrl>https://github.com/lunarcloud/NfpmTool</projectUrl>
         <description>Dotnet Tool Wrapper for nFPM</description>
         <copyright>Sam Sarette</copyright>
         <tags>nfpm packaging deb rpm apk ipk arch</tags>
-        <repository type="git" url="https://github.com/lunarcloud/NfpmWrapper.git" />
+        <repository type="git" url="https://github.com/lunarcloud/NfpmTool.git" />
         <packageTypes>
             <packageType name="DotnetTool" />
         </packageTypes>
