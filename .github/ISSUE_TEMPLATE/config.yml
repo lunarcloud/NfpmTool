@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/lunarcloud/NfpmWrapper/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📖 Documentation
+    url: https://github.com/lunarcloud/NfpmWrapper/blob/main/README.md
+    about: View the project documentation

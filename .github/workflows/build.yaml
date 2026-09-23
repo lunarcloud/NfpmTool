@@ -1,0 +1,179 @@
+on:
+  workflow_call:
+    inputs:
+      wrapper:
+        required: true
+        type: string
+      nfpm:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v7
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v6
+      with:
+        dotnet-version: |
+          10.x
+
+    - name: Restore Tools
+      run: >
+        dotnet tool restore
+
+    - name: Insert Wrapper
+      shell: bash
+      run: |
+        wget https://github.com/demaconsulting/DotnetToolWrapper/releases/download/${{ inputs.wrapper }}/manifest.spdx.json
+        wget https://github.com/demaconsulting/DotnetToolWrapper/releases/download/${{ inputs.wrapper }}/DotnetToolWrapper.zip
+        unzip -o DotnetToolWrapper.zip -d DotnetToolWrapper
+        cp DotnetToolWrapper/net10.0/*.* pack/tools/net10.0/any
+
+    - name: Insert nFPM win-x64
+      shell: bash
+      run: |
+        wget https://github.com/goreleaser/nfpm/releases/download/v${{ inputs.nfpm }}/nfpm_${{ inputs.nfpm }}_Windows_x86_64.zip -O nfpm-win-x64.zip
+        mkdir nfpm-win-x64
+        unzip nfpm-win-x64.zip -d nfpm-win-x64
+        mkdir pack/win-x64
+        cp nfpm-win-x64/nfpm.exe pack/win-x64
+
+    - name: Insert nFPM win-arm64
+      shell: bash
+      run: |
+        wget https://github.com/goreleaser/nfpm/releases/download/v${{ inputs.nfpm }}/nfpm_${{ inputs.nfpm }}_Windows_arm64.zip -O nfpm-win-arm64.zip
+        mkdir nfpm-win-arm64
+        unzip nfpm-win-arm64.zip -d nfpm-win-arm64
+        mkdir pack/win-arm64
+        cp nfpm-win-arm64/nfpm.exe pack/win-arm64
+
+    - name: Insert nFPM linux-x64
+      shell: bash
+      run: |
+        wget https://github.com/goreleaser/nfpm/releases/download/v${{ inputs.nfpm }}/nfpm_${{ inputs.nfpm }}_Linux_x86_64.tar.gz -O nfpm-linux-x64.tar.gz
+        mkdir nfpm-linux-x64
+        tar -xzvf nfpm-linux-x64.tar.gz -C nfpm-linux-x64
+        mkdir pack/linux-x64
+        cp nfpm-linux-x64/nfpm pack/linux-x64
+        chmod +x pack/linux-x64/nfpm
+        mkdir pack/docs
+        cp nfpm-linux-x64/LICENSE.md pack/docs
+
+    - name: Insert nFPM linux-arm64
+      shell: bash
+      run: |
+        wget https://github.com/goreleaser/nfpm/releases/download/v${{ inputs.nfpm }}/nfpm_${{ inputs.nfpm }}_Linux_arm64.tar.gz -O nfpm-linux-arm64.tar.gz
+        mkdir nfpm-linux-arm64
+        tar -xzvf nfpm-linux-arm64.tar.gz -C nfpm-linux-arm64
+        mkdir pack/linux-arm64
+        cp nfpm-linux-arm64/nfpm pack/linux-arm64
+        chmod +x pack/linux-arm64/nfpm
+
+    - name: Generate SBOM
+      run: >
+        dotnet sbom-tool generate
+        -b pack
+        -pn SamSarette.NfpmTool
+        -pv ${{ inputs.version }}
+        -ps SamSarette
+        -nsb https://github.com/lunarcloud/NfpmWrapper
+        -li true
+        -pm true
+
+    - name: Enhance SBOM
+      shell: bash
+      run: |
+        dotnet spdx-tool run-workflow spdx-workflow.yaml nfpm-version=${{ inputs.nfpm }}
+
+    - name: Create Dotnet Tool
+      run: |
+        cd pack
+        dotnet pack SamSarette.NfpmTool.csproj -p:Version=${{ inputs.version }} -o .
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: build-artifacts
+        path: |
+          pack/*.nupkg
+          pack/_manifest/spdx_2.2/*.*
+
+  test:
+    permissions:
+      contents: read
+    runs-on: ${{ matrix.os }}
+    needs: build
+    strategy:
+      matrix:
+        # ubuntu/windows x64 cover the primary targets; the -arm runners
+        # exercise the linux-arm64/win-arm64 binaries on real arm64 hardware.
+        os: [ubuntu-latest, windows-latest, ubuntu-24.04-arm, windows-11-arm]
+        dotnet: ['10.x']
+    steps:
+
+    # Fixtures (test/fixtures/nfpm.yaml) are used by the functional
+    # packaging test below.
+    - uses: actions/checkout@v7
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v6
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    - name: Download Artifacts
+      uses: actions/download-artifact@v8
+      with:
+        name: build-artifacts
+        path: build-artifacts
+
+    - name: Create test directory
+      shell: bash
+      run: mkdir test-dir
+
+    - name: Create tool manifest
+      shell: bash
+      run: |
+        cd test-dir
+        dotnet new tool-manifest
+
+    - name: Install NfpmTool
+      shell: bash
+      run: |
+        cd test-dir
+        dotnet tool install SamSarette.NfpmTool --add-source ../build-artifacts --version ${{ inputs.version }}
+
+    - name: Run nfpm --help
+      shell: bash
+      run: |
+        cd test-dir
+        dotnet tool run nfpm -- --help
+
+    - name: Verify nfpm version
+      shell: bash
+      run: |
+        cd test-dir
+        dotnet tool run nfpm -- --version
+
+    # Functional self-validation: build real packages from the checked-in
+    # fixture to confirm the wrapped nfpm binary actually works, not just
+    # that it starts up.
+    - name: Build deb package from fixture
+      shell: bash
+      run: |
+        cd test-dir
+        dotnet tool run nfpm -- package --config ../test/fixtures/nfpm.yaml --target ./selftest.deb --packager deb
+        test -s ./selftest.deb
+
+    - name: Build rpm package from fixture
+      shell: bash
+      run: |
+        cd test-dir
+        dotnet tool run nfpm -- package --config ../test/fixtures/nfpm.yaml --target ./selftest.rpm --packager rpm
+        test -s ./selftest.rpm

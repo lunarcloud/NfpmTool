@@ -1,0 +1,30 @@
+name: Build
+
+on: [push]
+
+jobs:
+  quality-checks:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+
+      - name: Check Spelling
+        run: npx cspell "**/*.md" "**/*.yaml" "**/*.yml" "**/*.json"
+
+      - name: Lint Markdown
+        run: npx markdownlint-cli "**/*.md"
+
+  build:
+    name: Build Artifacts
+    needs: quality-checks
+    uses: ./.github/workflows/build.yaml
+    with:
+      wrapper: 1.3.0
+      nfpm: 2.47.0
+      version: 0.0.0-run.${{ github.run_number }}

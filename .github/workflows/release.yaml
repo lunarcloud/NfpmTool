@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      wrapper:
+        description: 'Wrapper version (1.3.0)'
+        required: true
+      nfpm:
+        description: 'nFPM version (2.47.0)'
+        required: true
+      version:
+        description: 'Release version (2.47.0)'
+        required: true
+      publish:
+        description: 'Release Type'
+        required: true
+        default: 'publish'
+        type: choice
+        options:
+        - none
+        - release
+        - publish
+
+jobs:
+  build:
+    name: Build Artifacts
+    uses: ./.github/workflows/build.yaml
+    with:
+      wrapper: ${{ inputs.wrapper }}
+      nfpm: ${{ inputs.nfpm }}
+      version: ${{ inputs.version }}
+
+  release:
+    permissions:
+      contents: write
+      packages: write
+
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+
+    - uses: actions/checkout@v7
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v6
+      with:
+        dotnet-version: |
+          10.x
+
+    - name: Download Artifacts
+      uses: actions/download-artifact@v8
+      with:
+        name: build-artifacts
+        path: build-artifacts
+
+    - name: Create release
+      if: ${{ inputs.publish == 'release' || inputs.publish == 'publish' }}
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build-artifacts/*.nupkg,build-artifacts/_manifest/spdx_2.2/*.*"
+        generateReleaseNotes: true
+        tag: ${{ inputs.version }}
+
+    - name: Publish to Nuget
+      if: ${{ inputs.publish == 'publish' }}
+      run: >
+        dotnet nuget push
+        build-artifacts/*.nupkg
+        --source "https://api.nuget.org/v3/index.json"
+        --api-key "${{ secrets.NUGETKEY }}"
