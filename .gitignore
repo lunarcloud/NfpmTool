@@ -44,7 +44,6 @@ ScaffoldingReadMe.txt
 *~
 *.bak
 CodeCoverage/
-test-dir
 
 # MSBuild Binary and Structured Log
 *.binlog
@@ -57,3 +56,13 @@ test-dir
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Specific build ignores
+test-dir/
+manifest.spdx.json*
+*.tar.gz*
+*.zip*
+nfpm-*/
+DotnetToolWrapper/
+pack/**/nfpm
+pack/*/
