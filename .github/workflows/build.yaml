@@ -112,14 +112,10 @@ jobs:
     needs: build
     strategy:
       matrix:
-        # ubuntu/windows x64 cover the primary targets; the -arm runners
-        # exercise the linux-arm64/win-arm64 binaries on real arm64 hardware.
         os: [ubuntu-latest, windows-latest, ubuntu-24.04-arm, windows-11-arm]
         dotnet: ['10.x']
     steps:
 
-    # Fixtures (test/fixtures/nfpm.yaml) are used by the functional
-    # packaging test below.
     - uses: actions/checkout@v7
 
     - name: Setup dotnet
