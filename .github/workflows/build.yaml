@@ -132,7 +132,6 @@ jobs:
     - name: Prepare a test directory
       shell: bash
       run: |
-        mkdir test-dir
         cp -r ./test/fixtures ./test-dir
 
     - name: Create tool manifest
